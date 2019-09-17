@@ -1,4 +1,4 @@
-#pytorch 实现 focal loss
+# pytorch 实现 focal loss
 
 实现过程简易明了,全中文备注.
 
