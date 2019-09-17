@@ -26,5 +26,5 @@
 ![focal loss](images/fl_loss_效果.JPG)
 
 ### retainnet与其他检测模型对比
-![focal loss](images/fl_loss_效果.JPG)
+![focal loss](images/retainnet对比图.png)
 
