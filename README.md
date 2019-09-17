@@ -18,13 +18,18 @@
 
 ### 带平衡因子的Focal损失
 论文中最终为带平衡因子的focal loss, 本项目实现的也是这个版本
+
 ![focal loss](images/α-fl_loss.JPG)
 
 
 # 最终retainnet的效果
 ### 不同γ 值收敛效果
+
 ![focal loss](images/fl_loss_效果.JPG)
 
 ### retainnet与其他检测模型对比
+
 ![focal loss](images/retainnet对比图.png)
 
+
+##后续会添加retainnet的实现
