@@ -1,5 +1,7 @@
 # pytorch 实现 focal loss
 
+[retinanet](https://arxiv.org/abs/1708.02002)论文损失函数
+
 实现过程简易明了,全中文备注.
 
 阿尔法α 参数用于调整类别权重
