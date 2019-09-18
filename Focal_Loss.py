@@ -32,8 +32,8 @@ class focal_loss(nn.Module):
     def forward(self, preds, labels):
         """
         focal_loss损失计算
-        :param preds:   预测类别. size:[B,N,C]
-        :param labels:  实际类别. size:[B,N]
+        :param preds:   预测类别. size:[B,N,C] or [B,C]    分别对应与检测与分类任务, B 批次, N检测框数, C类别数
+        :param labels:  实际类别. size:[B,N] or [B]
         :return:
         """
         # assert preds.dim()==2 and labels.dim()==1
