@@ -18,7 +18,7 @@ class focal_loss(nn.Module):
         self.size_average = size_average
         if isinstance(alpha,list):
             assert len(alpha)==num_classes          # α可以以list方式输入,size:[num_classes] 用于对不同类别精细地赋予权重
-            print("Focal_loss alpha = {}".format(alpha))
+            print("Focal_loss alpha = {} , 将对每一类权重进行精细化赋值".format(alpha))
             self.alpha = torch.Tensor(alpha)
         else:
             assert alpha<1
