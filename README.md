@@ -1,5 +1,15 @@
 # pytorch 实现 focal loss
 
+GIthub使用指北:
+
+**1.想将项目拷贝到自己帐号下就fork一下.**
+
+**2.持续关注项目更新就star一下**
+
+**3.watch是设置接收邮件提醒的.**
+
+---
+
 [retinanet](https://arxiv.org/abs/1708.02002)论文损失函数
 
 实现过程简易明了,全中文备注.
