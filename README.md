@@ -1,5 +1,3 @@
-# pytorch 实现 focal loss
-
 GIthub使用指北:
 
 **1.想将项目拷贝到自己帐号下就fork一下.**
@@ -9,6 +7,8 @@ GIthub使用指北:
 **3.watch是设置接收邮件提醒的.**
 
 ---
+
+# pytorch 实现 focal loss
 
 [retinanet](https://arxiv.org/abs/1708.02002)论文损失函数
 
