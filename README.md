@@ -47,4 +47,4 @@ GIthub使用指北:
 ![retainnet对比图](images/retainnet对比图.png)
 
 
-## 后续会添加retainnet的实现
+## retainnet的实现请见:[Retinanet-pytorch](https://github.com/yatengLG/Retinanet-Pytorch)
