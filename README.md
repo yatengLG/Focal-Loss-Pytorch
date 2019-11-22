@@ -6,6 +6,10 @@ GIthub使用指北:
 
 **3.watch是设置接收邮件提醒的.**
 
+jupyter-notebook用法例子 请见:[由于Github是国外网站,加载会稍慢](https://github.com/yatengLG/Focal-Loss-Pytorch/blob/master/Demo.ipynb)
+ 
+ retainnet的实现请见:[Retinanet-pytorch](https://github.com/yatengLG/Retinanet-Pytorch)
+
 ---
 
 # pytorch 实现 focal loss
@@ -47,4 +51,3 @@ GIthub使用指北:
 ![retainnet对比图](images/retainnet对比图.png)
 
 
-## retainnet的实现请见:[Retinanet-pytorch](https://github.com/yatengLG/Retinanet-Pytorch)
