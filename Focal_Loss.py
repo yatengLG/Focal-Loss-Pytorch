@@ -18,7 +18,7 @@ class focal_loss(nn.Module):
         self.size_average = size_average
         if isinstance(alpha,list):
             assert len(alpha)==num_classes   # α可以以list方式输入,size:[num_classes] 用于对不同类别精细地赋予权重
-            print("Focal_loss alpha = {}, 将对每一类权重进行精细化赋值".format(alpha))
+            print(" --- Focal_loss alpha = {}, 将对每一类权重进行精细化赋值 --- ".format(alpha))
             self.alpha = torch.Tensor(alpha)
         else:
             assert alpha<1   #如果α为一个常数,则降低第一类的影响,在目标检测中为第一类
@@ -39,8 +39,8 @@ class focal_loss(nn.Module):
         # assert preds.dim()==2 and labels.dim()==1
         preds = preds.view(-1,preds.size(-1))
         self.alpha = self.alpha.to(preds.device)
-        preds_softmax = F.softmax(preds, dim=1) # 这里并没有直接使用log_softmax, 因为后面会用到softmax的结果(当然你也可以使用log_softmax,然后进行exp操作)
-        preds_logsoft = torch.log(preds_softmax)
+        preds_logsoft = F.log_softmax(preds, dim=1) # log_softmax
+        preds_softmax = torch.exp(preds_logsoft)    # softmax
 
         preds_softmax = preds_softmax.gather(1,labels.view(-1,1))   # 这部分实现nll_loss ( crossempty = log_softmax + nll )
         preds_logsoft = preds_logsoft.gather(1,labels.view(-1,1))
