@@ -38,16 +38,16 @@ class focal_loss(nn.Module):
         """
         # assert preds.dim()==2 and labels.dim()==1
         preds = preds.view(-1,preds.size(-1))
-        self.alpha = self.alpha.to(preds.device)
+        alpha = self.alpha.to(preds.device)
         preds_logsoft = F.log_softmax(preds, dim=1) # log_softmax
         preds_softmax = torch.exp(preds_logsoft)    # softmax
 
         preds_softmax = preds_softmax.gather(1,labels.view(-1,1))   # 这部分实现nll_loss ( crossempty = log_softmax + nll )
         preds_logsoft = preds_logsoft.gather(1,labels.view(-1,1))
-        self.alpha = self.alpha.gather(0,labels.view(-1))
+        alpha = alpha.gather(0,labels.view(-1))
         loss = -torch.mul(torch.pow((1-preds_softmax), self.gamma), preds_logsoft)  # torch.pow((1-preds_softmax), self.gamma) 为focal loss中 (1-pt)**γ
 
-        loss = torch.mul(self.alpha, loss.t())
+        loss = torch.mul(alpha, loss.t())
         if self.size_average:
             loss = loss.mean()
         else:
