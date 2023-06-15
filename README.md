@@ -32,6 +32,8 @@ jupyter-notebook用法例子 请见:[由于Github是国外网站,加载会稍慢
 
 ## 参数设置
 
+通常情况下，设置好num_classes直接调用就可以了。
+
 * **alhpa**参数
    
    可以参考各类别样本数据量比例，来设置alpha参数。
