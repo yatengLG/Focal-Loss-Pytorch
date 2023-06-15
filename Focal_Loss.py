@@ -5,7 +5,7 @@ import torch
 from torch.nn import functional as F
 
 class focal_loss(nn.Module):
-    def __init__(self, alpha=0.25, gamma=2, num_classes = 3, size_average=True):
+    def __init__(self, alpha=None, gamma=2, num_classes = 3, size_average=True):
         """
         focal_loss损失函数, -α(1-yi)**γ *ce_loss(xi,yi)
         步骤详细的实现了 focal_loss损失函数.
@@ -16,20 +16,24 @@ class focal_loss(nn.Module):
         """
         super(focal_loss,self).__init__()
         self.size_average = size_average
-        if isinstance(alpha,list):
+        if alpha is None:
+            self.alpha = torch.ones(num_classes)
+        elif isinstance(alpha,list):
             assert len(alpha)==num_classes   # α可以以list方式输入,size:[num_classes] 用于对不同类别精细地赋予权重
-            print(" --- Focal_loss alpha = {}, 将对每一类权重进行精细化赋值 --- ".format(alpha))
             self.alpha = torch.Tensor(alpha)
         else:
-            assert alpha<1   #如果α为一个常数,则降低第一类的影响,在目标检测中为第一类
-            print(" --- Focal_loss alpha = {} ,将对背景类进行衰减,请在目标检测任务中使用 --- ".format(alpha))
+            assert alpha<1   #如果α为一个常数,则降低第一类的影响,在目标检测中第一类为背景类
             self.alpha = torch.zeros(num_classes)
             self.alpha[0] += alpha
             self.alpha[1:] += (1-alpha) # α 最终为 [ α, 1-α, 1-α, 1-α, 1-α, ...] size:[num_classes]
 
         self.gamma = gamma
-
-    def forward(self, preds, labels):
+        
+        print('Focal Loss:')
+        print('    Alpha = {}'.format(self.alpha))
+        print('    Gamma = {}'.format(self.gamma))
+        
+        def forward(self, preds, labels):
         """
         focal_loss损失计算
         :param preds:   预测类别. size:[B,N,C] or [B,C]    分别对应与检测与分类任务, B 批次, N检测框数, C类别数
