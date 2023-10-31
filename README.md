@@ -8,7 +8,7 @@ GIthub使用指北:
 
 jupyter-notebook用法例子 请见:[由于Github是国外网站,加载会稍慢](https://github.com/yatengLG/Focal-Loss-Pytorch/blob/master/Demo.ipynb)
  
- retainnet的实现请见:[Retinanet-pytorch](https://github.com/yatengLG/Retinanet-Pytorch)
+ retinanet的实现请见:[Retinanet-pytorch](https://github.com/yatengLG/Retinanet-Pytorch)
 
 ---
 
@@ -57,7 +57,7 @@ jupyter-notebook用法例子 请见:[由于Github是国外网站,加载会稍慢
 ![α-cross_empty](images/α-cross_empty.JPG)
 
 ## Focal损失
-加入 (1-pt)γ 平衡难易样本的权重,通过γ缩放因子调整,retainnet默认γ=2
+加入 (1-pt)γ 平衡难易样本的权重,通过γ缩放因子调整,retinanet默认γ=2
 
 ![focal loss](images/fl_loss.JPG)
 
@@ -67,13 +67,13 @@ jupyter-notebook用法例子 请见:[由于Github是国外网站,加载会稍慢
 ![α-focal loss](images/α-fl_loss.JPG)
 
 
-# 最终retainnet的效果
+# 最终retinanet的效果
 ### 不同γ 值收敛效果
 
 ![focal loss_效果](images/fl_loss_效果.JPG)
 
-### retainnet与其他检测模型对比
+### retinanet与其他检测模型对比
 
-![retainnet对比图](images/retainnet对比图.png)
+![retinanet对比图](images/retainnet对比图.png)
 
 
