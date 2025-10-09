@@ -5,7 +5,7 @@ import torch
 from torch.nn import functional as F
 
 class focal_loss(nn.Module):
-    def __init__(self, alpha=None, gamma=2, num_classes = 3, size_average=True):
+    def __init__(self, alpha=None, gamma=2, num_classes = 3, size_average='mean'):
         """
         focal_loss损失函数, -α(1-yi)**γ *ce_loss(xi,yi)
         步骤详细的实现了 focal_loss损失函数.
@@ -13,6 +13,7 @@ class focal_loss(nn.Module):
         :param gamma:   伽马γ,难易样本调节参数. retainnet中设置为2
         :param num_classes:     类别数量
         :param size_average:    损失计算方式,默认取均值
+        :param size_average可以是mean、BatchSize、sum三种
         """
         super(focal_loss,self).__init__()
         self.size_average = size_average
@@ -34,26 +35,31 @@ class focal_loss(nn.Module):
         print('    Gamma = {}'.format(self.gamma))
         
         def forward(self, preds, labels):
-        """
-        focal_loss损失计算
-        :param preds:   预测类别. size:[B,N,C] or [B,C]    分别对应与检测与分类任务, B 批次, N检测框数, C类别数
-        :param labels:  实际类别. size:[B,N] or [B]
-        :return:
-        """
-        # assert preds.dim()==2 and labels.dim()==1
-        preds = preds.view(-1,preds.size(-1))
-        alpha = self.alpha.to(preds.device)
-        preds_logsoft = F.log_softmax(preds, dim=1) # log_softmax
-        preds_softmax = torch.exp(preds_logsoft)    # softmax
+            """
+            focal_loss损失计算
+            :param preds:   预测类别. size:[B,N,C] or [B,C]    分别对应与检测与分类任务, B 批次, N检测框数, C类别数
+            :param labels:  实际类别. size:[B,N] or [B]
+            :return:
+            """
+            # assert preds.dim()==2 and labels.dim()==1
+            preds = preds.view(-1,preds.size(-1))
+            #这是原代码，似乎少了一个self。使用cuda运行时会报错，self.alpha和label不在一个设备上
+            # alpha = self.alpha.to(preds.device)
+            #修改后代码
+            self.alpha = self.alpha.to(preds.device)
+            preds_logsoft = F.log_softmax(preds, dim=1) # log_softmax
+            preds_softmax = torch.exp(preds_logsoft)    # softmax
 
-        preds_softmax = preds_softmax.gather(1,labels.view(-1,1))   # 这部分实现nll_loss ( crossempty = log_softmax + nll )
-        preds_logsoft = preds_logsoft.gather(1,labels.view(-1,1))
-        alpha = self.alpha.gather(0,labels.view(-1))
-        loss = -torch.mul(torch.pow((1-preds_softmax), self.gamma), preds_logsoft)  # torch.pow((1-preds_softmax), self.gamma) 为focal loss中 (1-pt)**γ
+            preds_softmax = preds_softmax.gather(1,labels.view(-1,1))   # 这部分实现nll_loss ( crossempty = log_softmax + nll )
+            preds_logsoft = preds_logsoft.gather(1,labels.view(-1,1))
+            alpha = self.alpha.gather(0,labels.view(-1))
+            loss = -torch.mul(torch.pow((1-preds_softmax), self.gamma), preds_logsoft)  # torch.pow((1-preds_softmax), self.gamma) 为focal loss中 (1-pt)**γ
 
-        loss = torch.mul(alpha, loss.t())
-        if self.size_average:
-            loss = loss.mean()
-        else:
-            loss = loss.sum()
-        return loss
+            loss = torch.mul(alpha, loss.t())
+            if self.size_average == 'mean':
+                loss = loss.mean()
+            elif self.size_average == "BatchSize":
+                loss = loss.squeeze()
+            else:
+                loss = loss.sum()
+            return loss
